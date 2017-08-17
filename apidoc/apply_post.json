@@ -1,0 +1,13 @@
+{
+	"club_id":2,
+	"formlist":[
+		{
+		"question_id":1,
+		"answer":"选项1;选项2;选项3"
+		},
+		{
+		"question_id":2,
+		"answer":"答案文字内容"
+		}
+	]
+}

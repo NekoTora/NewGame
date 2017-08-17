@@ -1,0 +1,25 @@
+{
+	"club":{
+		"id":2,
+		"name":"社团名称"
+	},
+	"formlist":[
+		{
+			"question_id":1,
+			"type":"radio",
+			"question":"请选择一个单选项？",
+			"answer":["选项1","选项2","选项3"]
+		},
+		{
+			"question_id":2,
+			"type":"checkbox",
+			"question":"请选择几个多选项选项？",
+			"answer":["选项1","选项2","选项3"]
+		},
+		{
+			"question_id":3,
+			"type":"input",
+			"question":"请输入内容"
+		}
+	]
+}
