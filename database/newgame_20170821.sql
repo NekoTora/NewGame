@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2017-08-21 02:53:46
+-- Generation Time: 2017-08-21 03:03:19
 -- 服务器版本： 10.1.9-MariaDB
 -- PHP Version: 7.0.1
 
@@ -60,6 +60,7 @@ CREATE TABLE `ng_apply_content` (
 CREATE TABLE `ng_club` (
   `id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
+  `img_logo` varchar(255) DEFAULT NULL,
   `manager_user` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `signup` int(11) NOT NULL,
@@ -73,8 +74,8 @@ CREATE TABLE `ng_club` (
 -- 转存表中的数据 `ng_club`
 --
 
-INSERT INTO `ng_club` (`id`, `name`, `manager_user`, `status`, `signup`, `sort`, `email`, `create_time`, `update_time`) VALUES
-(1, '微光网络工作室', 1, 1, 1, 999, 'i@flag.moe', '2017-08-20 18:08:16', '0000-00-00 00:00:00');
+INSERT INTO `ng_club` (`id`, `name`, `img_logo`, `manager_user`, `status`, `signup`, `sort`, `email`, `create_time`, `update_time`) VALUES
+(1, '微光网络工作室', '1.png', 1, 1, 1, 999, 'i@flag.moe', '2017-08-20 19:03:10', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
