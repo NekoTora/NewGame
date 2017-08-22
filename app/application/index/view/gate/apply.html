@@ -1,0 +1,38 @@
+<div class="ng_apply">
+    <div class="ng_club">
+        <h2>您正在加入 {$club.name} </h2>
+    </div>
+    <div class="ng_qesbox">
+        {volist name="qes" id="vo"}
+        <div class="ng_item">
+            <label>{$vo.msg}</label>
+            <div class="ng_answer">
+                {switch name="vo.type"}
+
+                    {case value="input"}
+                        <input type="text" name="vo.id" />
+                    {/case}
+
+                    {case value="radio"}
+                        {volist name="vo.answer|json_decode" id="ao"}
+                            <label><input type="radio" name="vo.id" value="{$ao}" />{$ao}</label>
+                        {/volist}
+                    {/case}
+
+                    {case value="checkbox"}
+                        {volist name="vo.answer|json_decode" id="ao"}
+                            <label><input type="checkbox" name="vo.id" value="{$ao}" />{$ao}</label>
+                        {/volist}
+                    {/case}
+
+                    {default /}Invailed Question Type!
+                {/switch}
+            </div>
+        </div>
+        <br>
+        {/volist}
+    </div>
+    <div class="ng_submit">
+        <a href="#">提交</a>
+    </div>
+</div>

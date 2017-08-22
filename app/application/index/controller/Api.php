@@ -2,7 +2,7 @@
 namespace app\index\controller;
 use app\index\model\Club;
 use app\index\model\Question;
-class Api
+class Api extends \think\Controller
 {
 
     public function clubList(){
@@ -24,6 +24,7 @@ class Api
         return json($re);
     }
 
+    //   /api/
     public function clubApply()
     {
     	$input = json_decode(input('param.json'));
