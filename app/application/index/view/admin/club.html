@@ -1,0 +1,25 @@
+{extend name="layout:admin" /}
+{block name="title"}社团设置{/block}
+{block name="main"}
+
+<div class="header py-5">
+        <div class="container"><h1>社团设置</h1></div>
+</div>
+<div class="container">
+<div class="my-3">
+    <h5>纳新状态 <span class="badge badge-secondary">进行中</span></h5>
+    <a href="#" class="btn btn-primary" role="button">开始纳新</a>
+    <a href="#" class="btn btn-primary" role="button">停止纳新</a>
+</div>
+<div class="my-3">
+<form>
+<div class="form-group">
+    <labe>社团名称</labe>
+    <input type="email" class="form-control" placeholder="">
+    <small id="emailHelp" class="form-text text-muted">请输入标准的社团名称，不超过100个字。</small>
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+</div>
+{/block}

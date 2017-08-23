@@ -7,4 +7,19 @@ class Admin extends \think\Controller
     {
         return $this->fetch();
     }
+
+    public function club()
+    {
+        return $this->fetch();
+    }
+
+    public function question()
+    {
+        return $this->fetch();
+    }
+
+    public function data()
+    {
+        return $this->fetch();
+    }
 }
