@@ -7,12 +7,12 @@ class Club extends Model
 {
     //获取社团列表
     static public function list(){
-        return self::where('status',1)->field('id,name,status,signup,sort')->select();
+        return self::where('status',1)->field('id,name,img_logo,status,signup,sort')->select();
     }
 
     //获取社团信息
     static public function info($id){
-        return self::where('id',$id)->field('id,name,status,signup,sort')->find();
+        return self::where('id',$id)->field('id,name,img_logo,status,signup,sort')->find();
     }
 
     //社团是否开通纳新通道并可以纳新
