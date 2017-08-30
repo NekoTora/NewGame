@@ -42,8 +42,8 @@
                         <div class="col-sm-10">
                             
                             <div class="mb-3">
-                                <template v-for="item in qes.answerlist">
-                                    <input type="text" class="form-control form-control-sm mb-2" placeholder="选项"  v-model="item">
+                                <template v-for="(item,index) in qes.answerlist">
+                                    <input type="text" class="form-control form-control-sm mb-2" placeholder="选项"  v-model="qes.answerlist[index]">
                                 </template>
                             </div>
                             <div class="mb-2">
