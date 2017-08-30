@@ -5,6 +5,13 @@ use app\index\model\Question;
 class Api extends \think\Controller
 {
 
+    public function _empty($name)
+    {
+        //把所有城市的操作解析到city方法
+        return json(array('status'=>'error','code'=>'404'));
+    }
+    
+
     public function clubList(){
         $club = Club::list();
         return json($club);
