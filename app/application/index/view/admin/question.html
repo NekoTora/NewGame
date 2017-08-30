@@ -1,0 +1,118 @@
+{extend name="layout:admin" /}
+{block name="title"}纳新表单{/block}
+{block name="main"}
+
+<div class="header py-5">
+        <div class="container"><h1>纳新表单</h1></div>
+</div>
+<div class="container" id="question-box">
+	<div class="row my-3">
+		<div class="col-8" class="list-group">
+            <div class="card question-item mb-3" v-for="qes in formlist">
+                <div class="card-header">
+                    问题1：{{qes.msg}}
+                    <div class="float-right">
+                        <small class="text-muted">拖拽排序</small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">问题</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="问题" v-model="qes.msg">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">回答类型</label>
+                        <div class="col-sm-10">
+                        <select class="form-control" v-model="qes.type">
+                            <option value="input">问答</option>
+                            <option value="input">数字</option>
+                            <option value="input">手机号</option>
+                            <option value="input">email地址</option>
+                            <option value="radio">单选</option>
+                            <option value="checkbox">多选</option>
+                            <option value="select">下拉框</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" v-if="qes.type != 'input'">
+                        <label class="col-sm-2 col-form-label">选项</label>
+                        <div class="col-sm-10">
+                            
+                            <div class="mb-3">
+                                <template v-for="(item,index) in qes.answerlist">
+                                    <input type="text" class="form-control form-control-sm mb-2" placeholder="选项"  v-model="qes.answerlist[index]">
+                                </template>
+                            </div>
+                            <div class="mb-2">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="table_fulls();">增加选项</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="table_fulls();">删除选项</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer clearfix"><div class="float-right">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="table_fulls();">删除问题</button>
+                </div></div>
+            </div>
+		</div>
+		<div class="col-4">
+            <button type="submit" class="btn btn-primary">增加一个问题</button>
+            <button type="submit" class="btn btn-primary">保存表单</button>
+            <button type="submit" class="btn btn-primary">预览表单</button>
+        </div>
+	</div>
+</div>
+
+{/block}
+
+{block name="script"}
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/sortablejs@latest"></script>
+<script src="https://unpkg.com/vue-sortable@latest"></script>
+<script>
+var club_form_api = "http://localhost/project/newgame/public/index.php/api/clubForm/club/1";
+var app = new Vue({
+    el: '#question-box',
+    mounted: function (){
+        this.fetchData();
+    }, 
+    data: {
+        club: '',
+        formlist: ''
+    },
+    methods: {
+        //获取layoutapi
+        fetchData: function(){
+            var that = this;
+            $.ajax({
+                url: club_form_api,
+                type: 'GET',
+                dataType: 'json'
+            })
+            .done(function(data) {
+                for(var item in data.formlist){
+                    console.log(data['formlist'][item]['answer']);
+                    if(data['formlist'][item]['answer'] != '')
+                        data['formlist'][item]['answerlist'] = JSON.parse(data['formlist'][item]['answer']);
+                }
+                console.log(data);
+                that['club'] = data.club;
+                that['formlist'] = data.formlist;
+                console.log("[Layout Init Complete]\n"+that.api);
+            })
+            .fail(function(data,status,error) {
+                var info = "[Layout Init Failed]\n"+error;
+                alert(info);
+                console.log(info);
+            });
+        },
+        onUpdate: function (event) {
+            this.list.splice(event.newIndex, 0, this.list.splice(event.oldIndex, 1)[0])
+        }
+    }
+})
+</script>
+{/block}

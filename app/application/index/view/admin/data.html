@@ -1,0 +1,78 @@
+{extend name="layout:admin" /}
+{block name="title"}数据回收{/block}
+{block name="main"}
+
+<div class="header py-5">
+        <div class="container"><h1>数据回收</h1></div>
+</div>
+<div class="container table-box">
+    <div class="my-3 clearfix">
+        <div class="float-left">
+            <p>共回收申请10份</p>
+        </div>
+        <div class="float-right">
+            <a class="btn btn-primary btn-sm" href="#" role="button">导出Excel</a>
+            <button type="button" class="btn btn-primary btn-sm" onclick="table_fulls();">全屏显示</button>
+        </div>
+    </div>
+	<div class="my-3">
+        <div class="overflow-auto">
+            <table class="table table-hover table-content">
+                <thead>
+                    <tr>
+                    <th>纳新编号</th>
+                    <th>提交时间</th>
+                    <th>纳新人</th>
+                    <th>1.您的姓名</th>
+                    <th>2.系别</th>
+                    <th>2.请选择你想要的纳新方向（可以多选哦）</th>
+                    <th>3.请输入您的手机号嘛</th>
+                    <th>Talk about yourself</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <th scope="row">2333</th>
+                    <td>2017.08.30 13:45</td>
+                    <td>哞菇</td>
+                    <td>商务管理系</td>
+                    <td>前端;设计;后端;</td>
+                    <td>1540512306</td>
+                    <td>782325821</td>
+                    <td>7这里是一些自我介绍介绍自我介绍介绍自我介绍介绍自我介绍介绍自我介绍介绍自我介绍介绍</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    table{
+        font-size: 12px;
+    }
+    .overflow-auto{
+        overflow: auto;
+    }
+    .table-content{
+        width: 1500px;
+        overflow: auto;
+    }
+    .table-box{
+        transition: .3s all;
+    }
+    .table-box.full-screen{
+        width: 100%;
+        min-width: 100%;
+    }
+    .disable{
+        display: none;
+    }
+</style>
+<script>
+    function table_fulls(){
+        $(".table-box").toggleClass("full-screen");
+        $("nav").toggleClass("disable");
+        $(".header").toggleClass("disable");
+    }
+</script>
+{/block}
