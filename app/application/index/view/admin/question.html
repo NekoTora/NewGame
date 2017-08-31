@@ -69,9 +69,11 @@
 {/block}
 
 {block name="script"}
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/sortablejs@latest"></script>
-<script src="https://unpkg.com/vue-sortable@latest"></script>
+{load href="
+__ROOT__/sources/js/vue@2.4.2.js,
+__ROOT__/sources/js/sortablejs@1.6.1.js,
+__ROOT__/sources/js/vue-sortable@0.1.3.js
+" /}
 <script>
 var club_form_api = "http://localhost/project/newgame/public/index.php/api/clubForm/club/1";
 var app = new Vue({

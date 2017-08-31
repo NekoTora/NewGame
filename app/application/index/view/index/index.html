@@ -1,0 +1,37 @@
+{extend name="layout:admin" /}
+{block name="title"}Welcome{/block}
+{block name="nav"}
+{/block}
+{block name="main"}
+<div class="header py-5">
+        <div class="container">
+            <h1 class="mb-3">NewGame! - 简单好用的纳新工具</h1>
+        </div>
+</div>
+<div class="container">
+    <div class="container my-3">
+        <ul class="list-unstyled">
+            {volist name="club" id="vo"}
+            <li class="media my-3">
+                <img class="d-flex mr-3 club-logo" src="__ROOT__/w/club_logo/{$vo.img_logo}">
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">{$vo.name}</h5>
+                    <p>{$vo.intro}</p>
+                    <a href="#" class="card-link">立即报名</a>
+                </div>
+            </li>
+            {/volist}
+            </ul>
+        </div>
+    </div>
+    <div class="container my-3">
+        <a class="btn btn-primary" href="{:url('admin/index')}" role="button">后台管理</a>
+    </div>
+</div>
+<style>
+    .club-logo{
+        width: 100px;
+        height: 100px;
+    }
+</style>
+{/block}

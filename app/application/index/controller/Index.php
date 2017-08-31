@@ -1,10 +1,11 @@
 <?php
 namespace app\index\controller;
-
+use app\index\model\Club;
 class Index extends \think\Controller
 {
     public function index()
     {
-        return $view->fetch();
+        $this->assign('club', Club::list());
+        return $this->fetch();
     }
 }
