@@ -130,6 +130,7 @@ var app = new Vue({
                     data['formlist'][item]['msg'] = data['formlist'][item]['msg'];
                     if(data['formlist'][item]['answer'] != '')
                         data['formlist'][item]['answer'] = JSON.parse(data['formlist'][item]['answer']);
+                    else data['formlist'][item]['answer'] = [];
                     data['formlist'][item]['required'] = data['formlist'][item]['required'];
                     data['formlist'][item]['ishow'] = false;
                 }
@@ -166,15 +167,15 @@ var app = new Vue({
             que.ishow = true;
             app.formlist.push(que);
         },
-        removeItem: function(){
+        removeItem: function(event){
             var index = $(event.target).parents('.question-item').index();
             app.formlist.splice(index,1);
         },
-        addAnswer: function(){
+        addAnswer: function(event){
             var index = $(event.target).parents('.question-item').index();
             app.formlist[index].answer.push('');
         },
-        removeAnswer: function(){
+        removeAnswer: function(event){
             var index = $(event.target).parents('.question-item').index();
             app.formlist[index].answer.pop();
         }
