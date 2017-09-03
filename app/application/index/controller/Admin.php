@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
-
+use app\index\model\Club;
+use app\index\model\User;
 class Admin extends \think\Controller
 {
     //前置操作
@@ -34,11 +35,23 @@ class Admin extends \think\Controller
             return $this->fetch();
         };
     }
+    public function test(){
+        session('club.id',1);
+        dump(session(''));
+    }
 
-    public function club()
-    {
+    public function club(){
+        $id = session('club.id');
         if (request()->isPost()){
+            $club = new Club();
+            
+            dump(input('param.'));
+            $re = $club->allowField(['name','intro','email'])->save(input('param.'), ['id' => $id]);
+            $re>0 ? $this->success('更新成功') : $this->error('更新失败');
         }else{
+            //社团信息
+            $club = (new Club())->find($id);
+            $this->assign('club',$club);
             return $this->fetch();
         }
     }
