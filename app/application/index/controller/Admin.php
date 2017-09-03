@@ -9,8 +9,7 @@ class Admin extends \think\Controller
         //'checklogin' =>  ['except'=>'login']
     ];
 
-    public function index()
-    {
+    public function index(){
         return $this->fetch();
     }
 
@@ -35,6 +34,7 @@ class Admin extends \think\Controller
             return $this->fetch();
         };
     }
+
     public function test(){
         session('club.id',1);
         dump(session(''));
@@ -44,7 +44,6 @@ class Admin extends \think\Controller
         $id = session('club.id');
         if (request()->isPost()){
             $club = new Club();
-            
             dump(input('param.'));
             $re = $club->allowField(['name','intro','email'])->save(input('param.'), ['id' => $id]);
             $re>0 ? $this->success('更新成功') : $this->error('更新失败');
@@ -56,13 +55,11 @@ class Admin extends \think\Controller
         }
     }
 
-    public function question()
-    {
+    public function question(){
         return $this->fetch();
     }
 
-    public function data()
-    {
+    public function data(){
         return $this->fetch();
     }
 }

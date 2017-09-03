@@ -32,9 +32,9 @@
                             <div class="col-sm-10">
                             <select class="form-control" v-model="qes.type">
                                 <option value="input">问答</option>
-                                <option value="input">数字</option>
-                                <option value="input">手机号</option>
-                                <option value="input">email地址</option>
+                                <option value="number">数字</option>
+                                <option value="phone">手机号</option>
+                                <option value="email">email地址</option>
                                 <option value="radio">单选</option>
                                 <option value="checkbox">多选</option>
                                 <option value="select">下拉框</option>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row" v-if="qes.type != 'input'">
+                        <div class="form-group row" v-if="qes.type == 'select'||qes.type == 'checkbox'||qes.type == 'radio'">
                             <label class="col-sm-2 col-form-label">选项</label>
                             <div class="col-sm-10">
                                 
@@ -76,8 +76,9 @@
 		</div>
 		<div class="col-4">
             <button type="submit" class="btn btn-primary" v-on:click="addItem">增加一个问题</button>
-            <button type="submit" class="btn btn-primary">保存表单</button>
+            <button type="submit" class="btn btn-primary" v-on:click="getJson">保存表单</button>
             <button type="submit" class="btn btn-primary">预览表单</button>
+            <p>{{json}}</p>
         </div>
 	</div>
 </div>
@@ -113,7 +114,13 @@ var app = new Vue({
     }, 
     data: {
         club: '',
-        formlist: ''
+        formlist: [],
+        json: ''
+    },
+    watch: {
+        formlist: function(){
+            this.json = JSON.stringify(this.formlist);
+        }
     },
     methods: {
         //获取layoutapi
@@ -126,18 +133,18 @@ var app = new Vue({
             })
             .done(function(data) {
                 for(var item in data.formlist){
-                    data['formlist'][item]['type'] = data['formlist'][item]['type'];
-                    data['formlist'][item]['msg'] = data['formlist'][item]['msg'];
+                    var t = {};
+                    t['type'] = data['formlist'][item]['type'];
+                    t['msg'] = data['formlist'][item]['msg'];
                     if(data['formlist'][item]['answer'] != '')
-                        data['formlist'][item]['answer'] = JSON.parse(data['formlist'][item]['answer']);
-                    else data['formlist'][item]['answer'] = [];
-                    data['formlist'][item]['required'] = data['formlist'][item]['required'];
-                    data['formlist'][item]['ishow'] = false;
+                        t['answer'] = JSON.parse(data['formlist'][item]['answer']);
+                    else t['answer'] = [];
+                    t['required'] = data['formlist'][item]['required'];
+                    t['ishow'] = false;
+                    that.formlist.push(t);
                 }
-                console.log(data);
                 that['club'] = data.club;
-                that['formlist'] = data.formlist;
-                console.log("[Layout Init Complete]\n"+that.api);
+                console.log("[Layout Init Complete]\n"+club_form_api);
             })
             .fail(function(data,status,error) {
                 var info = "[Layout Init Failed]\n"+error;
@@ -150,6 +157,7 @@ var app = new Vue({
             var ishow;
             app.formlist[index].ishow ? ishow = false : ishow = true;
             this.$set(app.formlist[index], 'ishow', ishow);
+            this.$forceUpdate();
         },
         getdata: function(evt){
             console.log(evt.draggedContext.element.id);
@@ -178,6 +186,11 @@ var app = new Vue({
         removeAnswer: function(event){
             var index = $(event.target).parents('.question-item').index();
             app.formlist[index].answer.pop();
+        },
+        getJson: function(){
+            console.log(this.formlist);
+            json = JSON.stringify(this.formlist);
+            console.log(json);
         }
 
     }
