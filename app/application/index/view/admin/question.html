@@ -23,7 +23,8 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">问题</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" placeholder="问题" v-model="qes.msg">
+                                <input type="text" class="form-control" placeholder="问题" name="msg" v-model="qes.msg">
+                                <small class="form-text text-muted">请输入问题内容，不超过100个字。</small>
                             </div>
                         </div>
                         
@@ -45,7 +46,6 @@
                         <div class="form-group row" v-if="qes.type == 'select'||qes.type == 'checkbox'||qes.type == 'radio'">
                             <label class="col-sm-2 col-form-label">选项</label>
                             <div class="col-sm-10">
-                                
                                 <div class="mb-3">
                                     <template v-for="(item,index) in qes.answer">
                                         <input type="text" class="form-control form-control-sm mb-2" placeholder="选项"  v-model="qes.answer[index]">
@@ -75,6 +75,9 @@
             </draggable>
 		</div>
 		<div class="col-4">
+            <div class="alert alert-danger" role="alert" v-for="(item,index) in error">
+                {{item}}
+            </div>
             <button type="submit" class="btn btn-primary" v-on:click="addItem">增加一个问题</button>
             <button type="submit" class="btn btn-primary" v-on:click="getJson">保存表单</button>
             <button type="submit" class="btn btn-primary">预览表单</button>
@@ -96,6 +99,9 @@
         cursor: move;
         cursor: -webkit-grabbing;
     }
+    .invalid-feedback{
+        display: block;
+    }
 </style>
 {/block}
 
@@ -115,11 +121,13 @@ var app = new Vue({
     data: {
         club: '',
         formlist: [],
-        json: ''
+        json: '',
+        error: []
     },
     watch: {
         formlist: function(){
             this.json = JSON.stringify(this.formlist);
+            console.log('biu');
         }
     },
     methods: {
@@ -189,10 +197,19 @@ var app = new Vue({
         },
         getJson: function(){
             console.log(this.formlist);
+            this.error = [];
+            for(var i in this.formlist){
+                var num = parseInt(i)+1;
+                var item = this.formlist[i];
+                if(item.msg=='') this.error.push('问题'+num+'不能为空');
+                if(item.type == 'select'||item.type == 'checkbox'||item.type == 'radio') {
+                    if(item.answer=='') this.error.push('问题'+num+'回答不能为空');
+                }
+            }
             json = JSON.stringify(this.formlist);
             console.log(json);
+            return json;
         }
-
     }
 })
 </script>
