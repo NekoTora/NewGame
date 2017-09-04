@@ -1,0 +1,35 @@
+{extend name="layout:admin" /}
+{block name="title"}Welcome{/block}
+{block name="nav"}
+{/block}
+{block name="main"}
+<div class="header py-5">
+        <div class="container">
+                <h1>安装</h1>
+                <h5>NewGame！简单好用的表单工具</h5>
+        </div>
+</div>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-4">
+            <img src="__ROOT__/sources/img/newgame.jpg" style="width:80%;">
+        </div>
+        <div class="col-8">
+            <p>嗨！欢迎使用NewGame，这是一个简单好用的表单回收工具！</p>
+            <pre><code>Version:v1.0 / Release:20170905</code></pre>
+            <br>
+            <p>您可以 <a href="https://github.com/NekoTora/NewGame">点击这里</a> 获取最新的版本。如有任何问题，欢迎在GitHub提问。</p>
+            <p class="font-weight-bold">请在<code>Config.php</code>中设置好您的数据库名称，用户名，密码，然后点安装即可快速开始！</p>
+            <br>
+            <br>
+            <a class="btn btn-primary" href="#" role="button">开始安装</a>
+        </div>
+    </div>
+</div>
+<style>
+    .club-logo{
+        width: 100px;
+        height: 100px;
+    }
+</style>
+{/block}

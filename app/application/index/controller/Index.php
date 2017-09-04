@@ -8,4 +8,9 @@ class Index extends \think\Controller
         $this->assign('club', Club::list());
         return $this->fetch();
     }
+
+    public function install()
+    {
+        return $this->fetch();
+    }
 }

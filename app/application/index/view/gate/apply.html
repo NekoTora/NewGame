@@ -1,38 +1,117 @@
-<div class="ng_apply">
-    <div class="ng_club">
-        <h2>您正在加入 {$club.name} </h2>
+{extend name="layout:common" /}
+{block name="title"}{/block}
+{block name="nav"}
+{/block}
+{block name="main"}
+<div class="main">
+    <div class="header">
+        <div class="container">
+            <h4>提交纳新</h4>
+            <h1>{$club.name}</h1>
+        </div>
     </div>
-    <div class="ng_qesbox">
+    <div class="container">
+    <form>
         {volist name="qes" id="vo"}
         <div class="ng_item">
-            <label>{$vo.msg}</label>
-            <div class="ng_answer">
-                {switch name="vo.type"}
+            {switch name="vo.type"}
 
-                    {case value="input"}
-                        <input type="text" name="vo.id" />
-                    {/case}
+                {case value="input"}
+                    <div class="form-group question-item clearfix">
+                        <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
+                        <input name="{$vo.id}" type="text" class="form-control">
+                        <small class="form-text text-muted float-right">必填</small>
+                    </div>
+                {/case}
 
-                    {case value="radio"}
-                        {volist name="vo.answer|json_decode" id="ao"}
-                            <label><input type="radio" name="vo.id" value="{$ao}" />{$ao}</label>
-                        {/volist}
-                    {/case}
+                {case value="number"}
+                    <div class="form-group question-item clearfix">
+                        <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
+                        <input name="{$vo.id}" type="number" class="form-control">
+                        <small class="form-text text-muted float-right">必填,数字</small>
+                    </div>
+                {/case}
 
-                    {case value="checkbox"}
-                        {volist name="vo.answer|json_decode" id="ao"}
-                            <label><input type="checkbox" name="vo.id" value="{$ao}" />{$ao}</label>
-                        {/volist}
-                    {/case}
+                {case value="phone"}
+                    <div class="form-group question-item clearfix">
+                        <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
+                        <input name="{$vo.id}" type="phone" class="form-control">
+                        <small class="form-text text-muted float-right">必填,手机号</small>
+                    </div>
+                {/case}
 
-                    {default /}Invailed Question Type!
-                {/switch}
-            </div>
+                {case value="email"}
+                    <div class="form-group question-item clearfix">
+                        <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
+                        <input name="{$vo.id}" type="email" class="form-control">
+                        <small class="form-text text-muted float-right">必填,邮箱地址</small>
+                    </div>
+                {/case}
+
+                {case value="radio"}
+                    <div class="form-check question-item clearfix">
+                    <legend class="col-form-legend"><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</legend>
+                    {volist name="vo.answer|json_decode" id="ao"}
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="{$vo.id}" value="{$ao}"> {$ao}
+                            </label>
+                        </div>
+                    {/volist}
+                    <small class="form-text text-muted float-right">必填</small>
+                    </div>
+                {/case}
+
+                {case value="checkbox"}
+                    <div class="form-check question-item clearfix">
+                    <legend class="col-form-legend"><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</legend>
+                    {volist name="vo.answer|json_decode" id="ao"}
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="{$vo.id}" value="{$ao}"> {$ao}
+                            </label>
+                        </div>
+                    {/volist}
+                    <small class="form-text text-muted float-right">必填</small>
+                    </div>
+                {/case}
+
+                {default /}<div class="form-group question-item clearfix">Invailed Question Type!</div>
+            {/switch}
         </div>
-        <br>
         {/volist}
+        <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
+    </form>
     </div>
-    <div class="ng_submit">
-        <a href="#">提交</a>
+    <div class="copyright text-center">
+        <p>NewGame！一个简单的表单工具</p>
     </div>
 </div>
+<style>
+    .header{
+        background: #eee;
+        padding: 40px 0;
+        margin-bottom: 20px;
+    }
+    .badge{
+        margin-right: 10px;
+    }
+    .question-item{
+        margin: 30px 0 ;
+    }
+    .container{
+        width: 500px;
+    }
+    .question-item .text-muted{
+        color: #e1e1e1!important;
+    }
+    .question-item:hover .text-muted{
+        color: #bbb!important;
+    }
+    .copyright{
+        color: #999;
+        font-size: 12px;
+        margin: 20px 0;
+    }
+</style>
+{/block}

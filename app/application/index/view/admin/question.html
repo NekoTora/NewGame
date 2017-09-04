@@ -78,16 +78,18 @@
             <div class="alert alert-danger" role="alert" v-for="(item,index) in error">
                 {{item}}
             </div>
-            <button type="submit" class="btn btn-primary" v-on:click="addItem">增加一个问题</button>
-            <button type="submit" class="btn btn-primary" v-on:click="getJson">保存表单</button>
-            <button type="submit" class="btn btn-primary">预览表单</button>
-            <p>{{json}}</p>
+            <button type="submit" class="btn btn-secondary btn-block mb-3" v-on:click="addItem">增加问题</button>
+            <button type="submit" class="btn btn-primary btn-block" v-on:click="getJson">保存表单</button>
+            <div class="card my-3">
+                <div class="card-body">
+                    <code>{{json}}</code>
+                </div>
+            </div>
         </div>
 	</div>
 </div>
 <style>
     .card-header{
-        moz-user-select: -moz-none;
         -moz-user-select: none;
         -o-user-select:none;
         -khtml-user-select:none;

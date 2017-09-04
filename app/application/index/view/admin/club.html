@@ -10,28 +10,33 @@
 		<div class="col-8">
 			<form method="post" action="">
 			<div class="form-group">
-			    <labe>社团名称</labe>
+			    <label>社团名称</label>
 			    <input type="text" name="name" class="form-control" placeholder="" value="{$club.name}">
-			    <small id="emailHelp" class="form-text text-muted">请输入标准的社团名称，不超过100个字。</small>
+			    <small class="form-text text-muted">请输入标准的社团名称，不超过100个字。</small>
 			</div>
 			<div class="form-group">
-			    <labe>社团简介</labe>
+			    <label>社团简介</label>
 			    <textarea class="form-control" rows="3" name="intro">{$club.intro}</textarea>
-			    <small id="emailHelp" class="form-text text-muted">请输入社团简介，不超过500个字。</small>
+			    <small class="form-text text-muted">请输入社团简介，不超过500个字。</small>
 			</div>
 			<div class="form-group">
-				<labe>纳新提醒邮箱</labe>
+				<label>纳新提醒邮箱</label>
 				<input type="email" name="email" class="form-control" placeholder="" value="{$club.email}">
-				<small id="emailHelp" class="form-text text-muted">收到新的纳新申请之后会发送提醒邮件到这个邮箱，可以输入多个邮箱用;分割，留空即关闭此功能。</small>
+				<small class="form-text text-muted">收到新的纳新申请之后会发送提醒邮件到这个邮箱，可以输入多个邮箱用;分割，留空即关闭此功能。</small>
 			</div>
 			<div class="form-group">
 				<label>LOGO</label>
 				<input type="file" class="form-control-file" name="logo">
-				<img src="__ROOT__/w/club_logo/{$club.img_logo}" alt="logo" class="img-thumbnail" style="height: 100px;width: 100px;">
+				<small class="form-text text-muted">图片文件，大小不超过1M，正方形，如不需要更新请留空。</small>
 			</div>
 			<button type="submit" class="btn btn-primary">提交</button>
 			</form>
-</div>
-</div>
+		</div>
+		<div class="col-4">
+			<img src="__ROOT__/w/club_logo/{$club.img_logo}" alt="logo" class="img-thumbnail mb-3" style="height: auto;width: 45%;">
+			<h4>{$club.name}</h4>
+			<p>{$club.intro}</p>
+		</div>
+	</div>
 </div>
 {/block}

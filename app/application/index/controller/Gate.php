@@ -18,4 +18,8 @@ class Gate extends \think\Controller
     
             return $this->fetch();
         }
+
+        public function get_apply(){
+            $id = input('param.club');
+        }
 }
