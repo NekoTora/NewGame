@@ -21,7 +21,7 @@
                 <div class="card-content" v-show="qes.ishow">
                     <div class="card-body">
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">问题</label>
+                            <label class="col-sm-2 col-form-label">问题/内容</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" placeholder="问题" name="msg" v-model="qes.msg">
                                 <small class="form-text text-muted">请输入问题内容，不超过100个字。</small>
@@ -29,7 +29,7 @@
                         </div>
                         
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">回答类型</label>
+                            <label class="col-sm-2 col-form-label">类型</label>
                             <div class="col-sm-10">
                             <select class="form-control" v-model="qes.type">
                                 <option value="input">问答</option>
@@ -39,7 +39,9 @@
                                 <option value="radio">单选</option>
                                 <option value="checkbox">多选</option>
                                 <option value="select">下拉框</option>
+                                <option value="text">仅显示文字</option>
                             </select>
+                            <small class="form-text text-muted" v-if="qes.type == 'text'">这道题只用来显示文字，不需要输入答案。</small>
                             </div>
                         </div>
 
@@ -57,7 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row"  v-if="qes.type != 'text'">
                             <label class="col-sm-2 col-form-label">选项</label>
                             <div class="col-sm-10 form-check">
                                 <label class="form-check-label">
@@ -79,7 +81,7 @@
                 {{item}}
             </div>
             <button type="submit" class="btn btn-secondary btn-block mb-3" v-on:click="addItem">增加问题</button>
-            <button type="submit" class="btn btn-primary btn-block" v-on:click="getJson">保存表单</button>
+            <button type="submit" class="btn btn-primary btn-block" v-on:click="submit">保存表单</button>
             <div class="card my-3">
                 <div class="card-body">
                     <code>{{json}}</code>
@@ -88,6 +90,25 @@
         </div>
 	</div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="noticebox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">好</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <style>
     .card-header{
         -moz-user-select: none;
@@ -115,6 +136,7 @@ __ROOT__/sources/js/vuedraggable.js,
 " /}
 <script>
 var club_form_api = "http://localhost/project/newgame/public/index.php/api/clubForm/club/1";
+var club_update_api = "http://localhost/project/newgame/public/index.php/admin/update_question/";
 var app = new Vue({
     el: '#question-box',
     mounted: function (){
@@ -208,11 +230,39 @@ var app = new Vue({
                     if(item.answer=='') this.error.push('问题'+num+'回答不能为空');
                 }
             }
+            if(this.error.length > 0) return false;
             json = JSON.stringify(this.formlist);
-            console.log(json);
             return json;
+        },
+        submit: function(){
+            var json = this.getJson();
+            if(json == false) return false;
+            var that = this;
+            $.ajax({
+                url: club_update_api,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'club':that.club.id ,
+                    'data':json
+                }
+            })
+            .done(function(data) {
+                console.log(data);
+                notice('保存成功',data.msg);
+            })
+            .fail(function(data,status,error) {
+                console.log(data);
+                notice('保存失败',"<p>API返回错误：</p>"+status+error);
+            });
         }
     }
 })
+function notice(title,content){
+    $('#noticebox .modal-title').text(title);
+    $('#noticebox .modal-body').text(content);
+    $('#noticebox').modal('show');
+}
+
 </script>
 {/block}

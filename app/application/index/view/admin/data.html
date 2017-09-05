@@ -8,7 +8,7 @@
 <div class="container table-box">
     <div class="my-3 clearfix">
         <div class="float-left">
-            <p>共回收申请10份</p>
+            <p>共回收申请 {$num} 份</p>
         </div>
         <div class="float-right">
             <a class="btn btn-primary btn-sm" href="#" role="button">导出Excel</a>
@@ -22,25 +22,21 @@
                     <tr>
                     <th>纳新编号</th>
                     <th>提交时间</th>
-                    <th>纳新人</th>
-                    <th>1.您的姓名</th>
-                    <th>2.系别</th>
-                    <th>2.请选择你想要的纳新方向（可以多选哦）</th>
-                    <th>3.请输入您的手机号嘛</th>
-                    <th>Talk about yourself</th>
+                    {volist name="question" id="qvo"}
+                        <th>{$qvo.msg}</th>
+                    {/volist}
                     </tr>
                 </thead>
                 <tbody>
+                {volist name="data" id="dvo"}
                     <tr>
-                    <th scope="row">2333</th>
-                    <td>2017.08.30 13:45</td>
-                    <td>哞菇</td>
-                    <td>商务管理系</td>
-                    <td>前端;设计;后端;</td>
-                    <td>1540512306</td>
-                    <td>782325821</td>
-                    <td>7这里是一些自我介绍介绍自我介绍介绍自我介绍介绍自我介绍介绍自我介绍介绍自我介绍介绍</td>
+                        <th scope="row">{$dvo.id}</th>
+                        <td>{$dvo.time}</td>
+                        {volist name="dvo.data" id="din"}
+                            <td>{$din}</td>
+                        {/volist}
                     </tr>
+                {/volist}
                 </tbody>
             </table>
         </div>

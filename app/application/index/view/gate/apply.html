@@ -11,40 +11,41 @@
         </div>
     </div>
     <div class="container">
-    <form>
+    <form method="post" action="{:url('gate/get_apply')}">
+        <input name="club" type="hidden" class="form-control" value="{$club.id}">
         {volist name="qes" id="vo"}
-        <div class="ng_item">
+
             {switch name="vo.type"}
 
                 {case value="input"}
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
-                        <input name="{$vo.id}" type="text" class="form-control">
-                        <small class="form-text text-muted float-right">必填</small>
+                        <input name="qes[{$vo.id}]" type="text" class="form-control">
+                        <p><small class="form-text text-muted float-right">必填</small></p>
                     </div>
                 {/case}
 
                 {case value="number"}
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
-                        <input name="{$vo.id}" type="number" class="form-control">
-                        <small class="form-text text-muted float-right">必填,数字</small>
+                        <input name="qes[{$vo.id}]" type="number" class="form-control">
+                        <p><small class="form-text text-muted float-right">必填,数字</small></p>
                     </div>
                 {/case}
 
                 {case value="phone"}
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
-                        <input name="{$vo.id}" type="phone" class="form-control">
-                        <small class="form-text text-muted float-right">必填,手机号</small>
+                        <input name="qes[{$vo.id}]" type="phone" class="form-control">
+                        <p><small class="form-text text-muted float-right">必填,手机号</small></p>
                     </div>
                 {/case}
 
                 {case value="email"}
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
-                        <input name="{$vo.id}" type="email" class="form-control">
-                        <small class="form-text text-muted float-right">必填,邮箱地址</small>
+                        <input name="qes[{$vo.id}]" type="email" class="form-control">
+                        <p><small class="form-text text-muted float-right">必填,邮箱地址</small></p>
                     </div>
                 {/case}
 
@@ -54,11 +55,11 @@
                     {volist name="vo.answer|json_decode" id="ao"}
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="{$vo.id}" value="{$ao}"> {$ao}
+                                <input class="form-check-input" type="radio" name="qes[{$vo.id}]" value="{$ao}"> {$ao}
                             </label>
                         </div>
                     {/volist}
-                    <small class="form-text text-muted float-right">必填</small>
+                    <p><small class="form-text text-muted float-right">必填</small></p>
                     </div>
                 {/case}
 
@@ -68,17 +69,37 @@
                     {volist name="vo.answer|json_decode" id="ao"}
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="{$vo.id}" value="{$ao}"> {$ao}
+                                <input class="form-check-input" type="checkbox" name="qes[{$vo.id}][{$key}]" value="{$ao}"> {$ao}
                             </label>
                         </div>
                     {/volist}
-                    <small class="form-text text-muted float-right">必填</small>
+                    <p><small class="form-text text-muted float-right">必填</small></p>
+                    </div>
+                {/case}
+
+                {case value="select"}
+                    <div class="form-check question-item clearfix">
+                    <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
+                    <select class="form-control" name="qes[{$vo.id}]">
+                        {volist name="vo.answer|json_decode" id="ao"}
+                            <option value="{$ao}">{$ao}</option>
+                        {/volist}
+                      </select>
+                    <p><small class="form-text text-muted float-right">必填</small></p>
+                    </div>
+                {/case}
+
+                
+
+                {case value="text"}
+                    <div class="form-check question-item clearfix">
+                        <p class="col-form-legend"><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</p>
                     </div>
                 {/case}
 
                 {default /}<div class="form-group question-item clearfix">Invailed Question Type!</div>
             {/switch}
-        </div>
+
         {/volist}
         <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
     </form>

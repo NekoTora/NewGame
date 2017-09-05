@@ -3,6 +3,8 @@ namespace app\index\controller;
 use app\index\model\Club;
 use app\index\model\User;
 use app\index\model\Question;
+use app\index\model\Apply;
+use app\index\model\ApplyContent;
 class Admin extends \think\Controller
 {
     //前置操作
@@ -62,48 +64,11 @@ class Admin extends \think\Controller
 
     public function update_question(){
         //if (request()->isPost()){
-            //$data = json_decode(input('param.json'));
-            $str = 
-<<<EOT
-[
-    {
-        "type":"input",
-        "msg":"这是一个问答题",
-        "answer":[
-
-        ],
-        "required":1,
-        "ishow":false
-    },
-    {
-        "type":"radio",
-        "msg":"请问你是那届的",
-        "answer":[
-            "2014",
-            "2015",
-            "2016",
-            "2017"
-        ],
-        "required":1,
-        "ishow":false
-    },
-    {
-        "type":"checkbox",
-        "msg":"请选择你喜欢的方向",
-        "answer":[
-            "伪娘",
-            "秀吉",
-            "扶她"
-        ],
-        "required":1,
-        "ishow":false
-    }
-]
-EOT;
-            $data = json_decode($str,true);
-            dump($data);
-            //$clubid = session('club.id');
-            $clubid = 1;
+            $data = json_decode(input('param.data'),true);
+            $clubid = input('param.club/d');
+            //检查编辑的社团是不是自己的社团
+            $userid = 1;
+            if(!User::isManager($userid,$clubid)) return json(['status'=>'error','msg'=>'喵喵喵你不是这个组织的管理员，你想干嘛？']);
             //清空问题
             $del = Question::where('club_id',$clubid)->delete();
             //循环获取问题
@@ -131,13 +96,34 @@ EOT;
                 if(!$re>0) $this->error("问题$key添加失败");
             }
             $re = count($data);
-            $this->success("添加成功，新增{$re}个问题，删除{$del}个问题",'admin/question');
+            return json(['status'=>'success','msg'=>"添加成功，新增{$re}个问题，删除{$del}个问题"]);
        // }else{
        //     return $this->error('无传入数据');
        // }
     }
 
     public function data(){
+        $clubid = 1;
+        $question = Question::list($clubid);
+        //循环过滤不需要回答的问题
+        foreach ($question as $key => $item) {
+            if($item->type == 'text') unset($question[$key]);
+        }
+        $apply = Apply::listByClub($clubid);
+        $apply_num = count($apply);
+        foreach ($apply as $keya => $app) {
+            $data[$keya] = [];
+            $data[$keya]['id'] = $app->id;
+            $data[$keya]['time'] = $app->create_time;
+            foreach ($question as $keyq => $que) {
+                $content = (new ApplyContent)->where('apply_id',$app->id)->where('question_id',$que->id)->find();
+                empty($content->answer) ? $answer = '' : $answer = $content->answer;
+                $data[$keya]['data'][$keyq] = $answer;
+            }
+        }
+        $this->assign('question',$question);
+        $this->assign('data',$data);
+        $this->assign('num',$apply_num);
         return $this->fetch();
     }
 }
