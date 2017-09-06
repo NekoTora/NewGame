@@ -11,13 +11,13 @@
 <div class="container">
     <div class="container my-3">
         <ul class="list-unstyled">
-            {volist name="club" id="vo"}
+            {volist name="club" id="vo" empty="暂无社团，快去添加"}
             <li class="media my-3">
                 <img class="d-flex mr-3 club-logo" src="__ROOT__/w/club_logo/{$vo.img_logo}">
                 <div class="media-body">
                     <h5 class="mt-0 mb-1">{$vo.name}</h5>
                     <p>{$vo.intro}</p>
-                    <a href="#" class="card-link">立即报名</a>
+                    <a href="{:url('gate/apply',['club'=>$vo.id])}" class="card-link">立即报名</a>
                 </div>
             </li>
             {/volist}

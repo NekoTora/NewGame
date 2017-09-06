@@ -38,6 +38,10 @@ class Admin extends \think\Controller
         };
     }
 
+    public function toggleOpen(){
+        //
+    }
+
     public function test(){
         session('club.id',1);
         dump(session(''));
@@ -63,43 +67,69 @@ class Admin extends \think\Controller
     }
 
     public function update_question(){
-        //if (request()->isPost()){
-            $data = json_decode(input('param.data'),true);
-            $clubid = input('param.club/d');
-            //检查编辑的社团是不是自己的社团
-            $userid = 1;
-            if(!User::isManager($userid,$clubid)) return json(['status'=>'error','msg'=>'喵喵喵你不是这个组织的管理员，你想干嘛？']);
-            //清空问题
-            $del = Question::where('club_id',$clubid)->delete();
-            //循环获取问题
-            foreach ($data as $key => $question) {
-                $item = new Question();
-                $item->club_id = $clubid;
-                $item->msg = $question['msg'];
-                $item->type = $question['type'];
-                $item->msg = $question['msg'];
-                $item->required = $question['required'];
-                $item->sort = 0;
-                $item->status = 1;
-                switch ($question['type']) {
-                    case 'select':
-                    case 'radio':
-                    case 'checkbox':
-                    $item->answer = json_encode($question['answer'],JSON_UNESCAPED_UNICODE);
-                        break;
-                    
-                    default:
-                    $item->answer = '';
-                        break;
+        $count = ['add'=>0,'mod'=>0,'del'=>0];
+        //if (!request()->isPost()){}
+        $data = json_decode(input('param.data'),true);
+        if(empty($data)) return json(['status'=>'error','msg'=>'空空空！崩崩崩！']);
+//         $data = 
+// <<<EOF
+// [{"id":122,"type":"select","msg":"测试下拉框","answer":["123","345"],"required":1,"ishow":false},{"id":123,"type":"radio","msg":"请问你是那届的","answer":["2014","2015","2016","2017"],"required":1,"ishow":false},{"id":124,"type":"checkbox","msg":"请选择你喜欢的方向","answer":["伪娘","秀吉","扶她"],"required":1,"ishow":false},{"id":125,"type":"input","msg":"这是一个问答题","answer":[],"required":1,"ishow":false}]
+// EOF;
+        //$data = json_decode($data,true);
+        $clubid = input('param.club/d');
+        //检查编辑的社团是不是自己的社团
+        $userid = 1;
+        if(!User::isManager($userid,$clubid)) return json(['status'=>'error','msg'=>'喵喵喵你不是这个组织的管理员，你想干嘛？']);
+        
+        //$qeslist = collection(Question::list($clubid))->toArray();
+
+        $qeslist = Question::list($clubid);
+        
+        //循环获取问题
+        foreach ($data as $key => $question) {
+            $oldqes = '';
+            //循环比较之前有没有这个问题
+            foreach($qeslist as $k => $qes){
+                if($question['id']==$qes['id']){
+                    $oldqes = $qes;
+                    unset($qeslist[$k]);
+                    break;
                 }
-                $re = $item->save();
-                if(!$re>0) $this->error("问题$key添加失败");
             }
-            $re = count($data);
-            return json(['status'=>'success','msg'=>"添加成功，新增{$re}个问题，删除{$del}个问题"]);
-       // }else{
-       //     return $this->error('无传入数据');
-       // }
+            $list['club_id'] = $clubid;
+            $list['msg'] = $question['msg'];
+            $list['type'] = $question['type'];
+            $list['msg'] = $question['msg'];
+            $list['required'] = $question['required'];
+            $list['sort'] = $question['sort'];
+            $list['status'] = 1;
+            switch ($question['type']) {
+                case 'select':
+                case 'radio':
+                case 'checkbox':
+                $list['answer'] = json_encode($question['answer'],JSON_UNESCAPED_UNICODE);
+                    break;
+                default:
+                $list['answer'] = '';
+                    break;
+            }
+            $item = new Question();
+            if(empty($oldqes)){
+                //新增问题
+                $count['add'] ++;
+                $re = $item->save($list);
+            }else{
+                //修改问题
+                $count['mod'] ++;
+                $re = $item->save($list,['id'=>$question['id']]);
+            }
+        }
+        foreach ($qeslist as $key => $delitem) {
+            $del = Question::where('id',$delitem['id'])->delete();
+            if(!$del>0) $this->error("问题{$delitem['id']}删除失败");
+            $count['del'] ++;
+        }
+        return json(['status'=>'success','msg'=>"新增{$count['add']}个问题，修改{$count['mod']}个问题，删除{$count['del']}个问题"]);
     }
 
     public function data(){

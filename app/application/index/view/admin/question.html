@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="card-footer clearfix"><div class="float-right">
-                        <button type="button" class="btn btn-primary btn-sm" v-on:click="removeItem">删除问题</button>
+                        <button type="button" class="btn btn-primary btn-sm" @click="removeItem">删除问题</button>
                     </div></div>
                 </div>
             </div>
@@ -80,15 +80,40 @@
             <div class="alert alert-danger" role="alert" v-for="(item,index) in error">
                 {{item}}
             </div>
-            <button type="submit" class="btn btn-secondary btn-block mb-3" v-on:click="addItem">增加问题</button>
-            <button type="submit" class="btn btn-primary btn-block" v-on:click="submit">保存表单</button>
+            <div class="alert alert-warning" role="alert" v-if="isChanged">
+                数据已修改，别忘记保存
+            </div>
+            <button type="submit" class="btn btn-secondary btn-block mb-3" @click="addItem">增加问题</button>
+            <button type="submit" class="btn btn-primary btn-block" @click="submit">保存表单</button>
             <div class="card my-3">
                 <div class="card-body">
                     <code>{{json}}</code>
                 </div>
             </div>
         </div>
-	</div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="removebox" tabindex="-1" role="dialog" aria-labelledby="removebox" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="removeModalLabel">删除提示</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>删除问题会导致之前回收的此问题数据无法查看</p>
+            <p>您可以先备份数据后再进行问题删除</p>
+            <p>确定删除这个问题嘛？</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">手滑，再想想</button>
+            <button type="button" class="btn btn-primary" @click="doRemove">是的，删除</button>
+        </div>
+        </div>
+    </div>
+    </div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="noticebox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -146,12 +171,14 @@ var app = new Vue({
         club: '',
         formlist: [],
         json: '',
-        error: []
+        error: [],
+        isChanged: 0
     },
     watch: {
         formlist: function(){
             this.json = JSON.stringify(this.formlist);
             console.log('biu');
+            this.isChanged = 1;
         }
     },
     methods: {
@@ -164,10 +191,13 @@ var app = new Vue({
                 dataType: 'json'
             })
             .done(function(data) {
+                console.log(data);
                 for(var item in data.formlist){
                     var t = {};
+                    t['id'] = data['formlist'][item]['id'];
                     t['type'] = data['formlist'][item]['type'];
                     t['msg'] = data['formlist'][item]['msg'];
+                    t['sort'] = data['formlist'][item]['sort'];
                     if(data['formlist'][item]['answer'] != '')
                         t['answer'] = JSON.parse(data['formlist'][item]['answer']);
                     else t['answer'] = [];
@@ -177,6 +207,7 @@ var app = new Vue({
                 }
                 that['club'] = data.club;
                 console.log("[Layout Init Complete]\n"+club_form_api);
+                this.isChanged = 0;
             })
             .fail(function(data,status,error) {
                 var info = "[Layout Init Failed]\n"+error;
@@ -192,14 +223,15 @@ var app = new Vue({
             this.$forceUpdate();
         },
         getdata: function(evt){
-            console.log(evt.draggedContext.element.id);
+            // console.log(evt.draggedContext.element.id);
         },
         datadragEnd:function(evt){
-            console.log('拖动前的索引：'+evt.oldIndex);
-            console.log('拖动后的索引：'+evt.newIndex);
+            // console.log('拖动前的索引：'+evt.oldIndex);
+            // console.log('拖动后的索引：'+evt.newIndex);
         },
         addItem: function(){
             var que =  new Object();
+            que.id = '0';
             que.type = 'input';
             que.msg = '';
             que.answer = [];
@@ -209,7 +241,13 @@ var app = new Vue({
         },
         removeItem: function(event){
             var index = $(event.target).parents('.question-item').index();
+            $('#removebox').modal('show');
+            $('#removebox').attr('questionid',index);
+        },
+        doRemove: function(){
+            index = $('#removebox').attr('questionid');
             app.formlist.splice(index,1);
+            $('#removebox').modal('hide');
         },
         addAnswer: function(event){
             var index = $(event.target).parents('.question-item').index();
@@ -229,9 +267,11 @@ var app = new Vue({
                 if(item.type == 'select'||item.type == 'checkbox'||item.type == 'radio') {
                     if(item.answer=='') this.error.push('问题'+num+'回答不能为空');
                 }
+                this.formlist[i].sort = i;
             }
             if(this.error.length > 0) return false;
             json = JSON.stringify(this.formlist);
+            console.log(json);
             return json;
         },
         submit: function(){
@@ -250,6 +290,7 @@ var app = new Vue({
             .done(function(data) {
                 console.log(data);
                 notice('保存成功',data.msg);
+                app.isChanged = 0;
             })
             .fail(function(data,status,error) {
                 console.log(data);

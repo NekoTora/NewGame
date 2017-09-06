@@ -1,5 +1,5 @@
 {extend name="layout:common" /}
-{block name="title"}{/block}
+{block name="title"}{$club.name}{/block}
 {block name="nav"}
 {/block}
 {block name="main"}
@@ -13,7 +13,7 @@
     <div class="container">
     <form method="post" action="{:url('gate/get_apply')}">
         <input name="club" type="hidden" class="form-control" value="{$club.id}">
-        {volist name="qes" id="vo"}
+        {volist name="qes" id="vo" empty="暂无问题喵喵喵"}
 
             {switch name="vo.type"}
 
