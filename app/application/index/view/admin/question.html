@@ -160,7 +160,7 @@ __ROOT__/sources/js/sortablejs@1.6.1.js,
 __ROOT__/sources/js/vuedraggable.js,
 " /}
 <script>
-var club_form_api = "http://localhost/project/newgame/public/index.php/api/clubForm/club/1";
+var club_form_api = "http://localhost/project/newgame/public/index.php/api/clubForm/club/{:session('clubid')}";
 var club_update_api = "http://localhost/project/newgame/public/index.php/admin/update_question/";
 var app = new Vue({
     el: '#question-box',

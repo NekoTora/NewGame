@@ -32,11 +32,11 @@
                   <ul class="navbar-nav my-2 my-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            微光网络工作室
+                            {:session('user.nickname')}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="#">账号设置</a>
-                            <a class="dropdown-item" href="#">退出</a>
+                            <a class="dropdown-item" href="{:url('admin/logout')}">退出</a>
                         </div>
                         </li>
                     </ul>
