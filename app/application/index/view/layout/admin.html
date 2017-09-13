@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{block name="title"}{/block} - NewGame</title>
+    <title>{block name="title"}{/block} - {:config('app_name')}</title>
     {load href="__ROOT__/sources/css/bootstrap.min.css" /}
   </head>
   <body>
     {block name="nav"}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
-                <a class="navbar-brand" href="{:url('admin/index')}">NewGame</a>
+                <a class="navbar-brand" href="{:url('admin/index')}">{:config('app_name')}</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>

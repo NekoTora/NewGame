@@ -13,6 +13,9 @@ class Admin extends \think\Controller
     ];
 
     public function index(){
+        $clubid = session('clubid');
+        $club = Club::info($clubid);
+        $this->assign('club',$club);
         return $this->fetch();
     }
 
@@ -62,7 +65,7 @@ class Admin extends \think\Controller
         $id = session('clubid');
         if (request()->isPost()){
             $club = new Club();
-            dump(input('param.'));
+            //dump(input('param.'));
             $re = $club->allowField(['name','intro','email'])->save(input('param.'), ['id' => $id]);
             $re>0 ? $this->success('更新成功') : $this->error('更新失败');
         }else{
