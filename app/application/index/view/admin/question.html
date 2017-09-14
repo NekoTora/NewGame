@@ -32,7 +32,8 @@
                             <label class="col-sm-2 col-form-label">类型</label>
                             <div class="col-sm-10">
                             <select class="form-control" v-model="qes.type">
-                                <option value="input">问答</option>
+                                <option value="input">输入框</option>
+                                <option value="textarea">多行输入框</option>
                                 <option value="number">数字</option>
                                 <option value="phone">手机号</option>
                                 <option value="email">email地址</option>
@@ -41,7 +42,7 @@
                                 <option value="select">下拉框</option>
                                 <option value="text">仅显示文字</option>
                             </select>
-                            <small class="form-text text-muted" v-if="qes.type == 'text'">这道题只用来显示文字，不需要输入答案。</small>
+                            <small class="form-text text-muted" v-if="qes.type == 'text'">只用来显示文字，不需要输入答案。</small>
                             </div>
                         </div>
 

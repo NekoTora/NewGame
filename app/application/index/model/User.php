@@ -1,4 +1,4 @@
-<?
+<?php
 namespace app\index\model;
 
 use think\Model;
@@ -18,5 +18,9 @@ class User extends Model
         }else{
             return true;
         }
+    }
+
+    static public function password($pwd){
+        return $pwd;
     }
 }

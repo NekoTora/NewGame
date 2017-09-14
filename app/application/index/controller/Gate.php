@@ -39,6 +39,7 @@ class Gate extends \think\Controller
                 $question = Question::getSingle($id);
                 if(empty($question)) $this->error("问题$id不存在");
                 if($question->club_id != $clubid) $this->error("问题$id无法提交");
+                if($question->required == 1 && empty($item)) $this->error("问题“".$question->msg."”不能为空");
                 $content = new ApplyContent();
                 $content->apply_id = $apply->id;
                 $content->question_id = $question->id;

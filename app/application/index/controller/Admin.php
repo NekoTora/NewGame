@@ -21,12 +21,12 @@ class Admin extends \think\Controller
 
     public function checklogin(){
         if(empty(session('user'))){
-            $this->error('请先登录','admin/login');
+            $this->redirect('admin/login');
         }
     }
 
     public function session(){
-    dump(session(''));
+        dump(session(''));
     }
 
     public function login(){
