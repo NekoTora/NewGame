@@ -161,8 +161,8 @@ __ROOT__/sources/js/sortablejs@1.6.1.js,
 __ROOT__/sources/js/vuedraggable.js,
 " /}
 <script>
-var club_form_api = "http://localhost/project/newgame/public/index.php/api/clubForm/club/{:session('clubid')}";
-var club_update_api = "http://localhost/project/newgame/public/index.php/admin/update_question/";
+var club_form_api = "{:url('api/clubForm',['club'=>session('clubid')])}";
+var club_update_api = "{:url('admin/update_question')}";
 var app = new Vue({
     el: '#question-box',
     mounted: function (){
@@ -295,7 +295,7 @@ var app = new Vue({
             })
             .fail(function(data,status,error) {
                 console.log(data);
-                notice('保存失败',"<p>API返回错误：</p>"+status+error);
+                notice('保存失败',"API返回错误："+status+error);
             });
         }
     }
