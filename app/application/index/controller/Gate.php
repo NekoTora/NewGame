@@ -31,6 +31,13 @@ class Gate extends \think\Controller
         $qes = input('param.qes/a');
         $check = Club::check($clubid);
         if($check!==true) $this->error($check['msg']);
+        //先检查一遍申请
+        foreach ($qes as $id => $item) {
+            $question = Question::getSingle($id);
+            if(empty($question)) $this->error("问题$id不存在");
+            if($question->club_id != $clubid) $this->error("问题$id无法提交");
+            if($question->required == 1 && empty($item)) $this->error("问题“".$question->msg."”不能为空");
+        }
         //新建申请
         $apply = new Apply();
         $apply->club_id = $clubid;
@@ -42,9 +49,6 @@ class Gate extends \think\Controller
         //储存问题
         foreach ($qes as $id => $item) {
             $question = Question::getSingle($id);
-            if(empty($question)) $this->error("问题$id不存在");
-            if($question->club_id != $clubid) $this->error("问题$id无法提交");
-            if($question->required == 1 && empty($item)) $this->error("问题“".$question->msg."”不能为空");
             $content = new ApplyContent();
             $content->apply_id = $apply->id;
             $content->question_id = $question->id;
