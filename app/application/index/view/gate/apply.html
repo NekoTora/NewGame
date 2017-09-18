@@ -21,7 +21,15 @@
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
                         <input name="qes[{$vo.id}]" type="text" class="form-control">
-                        <p><small class="form-text text-muted float-right">必填</small></p>
+                        <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填{/eq}</small></p>
+                    </div>
+                {/case}
+
+                {case value="textarea"}
+                    <div class="form-group question-item clearfix">
+                        <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
+                        <textarea name="qes[{$vo.id}]" class="form-control"></textarea>
+                        <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填{/eq}</small></p>
                     </div>
                 {/case}
 
@@ -29,7 +37,7 @@
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
                         <input name="qes[{$vo.id}]" type="number" class="form-control">
-                        <p><small class="form-text text-muted float-right">必填,数字</small></p>
+                        <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填,{/eq}数字</small></p>
                     </div>
                 {/case}
 
@@ -37,7 +45,7 @@
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
                         <input name="qes[{$vo.id}]" type="phone" class="form-control">
-                        <p><small class="form-text text-muted float-right">必填,手机号</small></p>
+                        <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填,{/eq}手机号</small></p>
                     </div>
                 {/case}
 
@@ -45,7 +53,7 @@
                     <div class="form-group question-item clearfix">
                         <label><span class="badge badge-secondary">{$key+1}</span>{$vo.msg}</label>
                         <input name="qes[{$vo.id}]" type="email" class="form-control">
-                        <p><small class="form-text text-muted float-right">必填,邮箱地址</small></p>
+                        <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填,{/eq}邮箱地址</small></p>
                     </div>
                 {/case}
 
@@ -59,7 +67,7 @@
                             </label>
                         </div>
                     {/volist}
-                    <p><small class="form-text text-muted float-right">必填</small></p>
+                    <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填{/eq}</small></p>
                     </div>
                 {/case}
 
@@ -73,7 +81,7 @@
                             </label>
                         </div>
                     {/volist}
-                    <p><small class="form-text text-muted float-right">必填</small></p>
+                    <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填{/eq}</small></p>
                     </div>
                 {/case}
 
@@ -85,7 +93,7 @@
                             <option value="{$ao}">{$ao}</option>
                         {/volist}
                       </select>
-                    <p><small class="form-text text-muted float-right">必填</small></p>
+                    <p><small class="form-text text-muted float-right">{eq name="vo.required" value="1"}必填</small></p>
                     </div>
                 {/case}
 
