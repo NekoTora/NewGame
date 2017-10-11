@@ -11,6 +11,7 @@
         </div>
     </div>
     <div class="container">
+        <div class="apply_form">
     <form method="post" action="{:url('gate/get_apply')}">
         <input name="club" type="hidden" class="form-control" value="{$club.id}">
         {volist name="qes" id="vo" empty="暂无问题喵喵喵"}
@@ -111,9 +112,10 @@
         {/volist}
         <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
     </form>
+</div>
     </div>
     <div class="copyright text-center">
-        <p>NewGame！一个简单的表单工具</p>
+        <p><a href="http://shimmer.neusoft.edu.cn/">© 微光网络工作室 - NewGame！纳新表单工具</a></p>
     </div>
 </div>
 <style>
@@ -128,9 +130,6 @@
     .question-item{
         margin: 30px 0 ;
     }
-    .container{
-        width: 500px;
-    }
     .question-item .text-muted{
         color: #e1e1e1!important;
     }
@@ -140,7 +139,16 @@
     .copyright{
         color: #999;
         font-size: 12px;
-        margin: 20px 0;
+        margin: 40px 0;
     }
+
+    .copyright a{
+        color: #999;
+    }
+    .container{
+        max-width: 600px;
+    }
+
+
 </style>
 {/block}

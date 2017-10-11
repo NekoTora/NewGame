@@ -14,6 +14,7 @@ return [
     'version'                => '0.5.1',
     'version_build'          => '20170906',
     'app_name'               => 'NewGame',
+    'source_root'            => '/newgame/',
     'upload_folder'          => './w/',
     'password_salt'          => 'stepbystep',
     // +----------------------------------------------------------------------
